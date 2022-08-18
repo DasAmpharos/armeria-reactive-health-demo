@@ -19,7 +19,12 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     implementation 'com.linecorp.armeria:armeria-spring-boot2-webflux-starter'
-    implementation 'com.linecorp.armeria:armeria-spring-boot2-actuator-starter'
+
+    implementation(project.hasProperty('armeria')
+        ? 'com.linecorp.armeria:armeria-spring-boot2-actuator-starter'
+        : 'org.springframework.boot:spring-boot-starter-actuator')
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
 }

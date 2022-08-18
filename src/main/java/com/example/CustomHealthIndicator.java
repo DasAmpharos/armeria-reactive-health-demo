@@ -15,16 +15,13 @@ public class CustomHealthIndicator extends AbstractReactiveHealthIndicator {
 
     @Override
     protected Mono<Health> doHealthCheck(Health.Builder builder) {
+        log.info("CustomHealthIndicator#doHealthCheck");
         return Mono.fromSupplier(() -> {
             // simulate some process for health check
-            var i = r.nextInt(0, 3);
-            log.info("Simulating health check...");
-            log.info(" > r.nextInt(0, 3)={}", i);
-            var health = switch (i) {
-                case 0 -> builder.up();
-                case 1 -> builder.down();
-                default -> builder.unknown();
-            };
+            var isUp = r.nextBoolean();
+            log.info(" > Simulating health check...");
+            log.info(" > Health is {}", isUp ? "up" : "down");
+            var health = isUp ? builder.up() : builder.down();
             return health.build();
         });
     }
